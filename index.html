@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Otaku Cards</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#090b12;
+  color:white;
+  padding-bottom:80px;
+}
+
+header{
+  background:linear-gradient(135deg,#111827,#172554,#450a0a);
+  padding:25px 15px;
+  text-align:center;
+}
+
+header h1{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+header p{
+  color:#d1d5db;
+}
+
+section{
+  display:none;
+  padding:20px 15px;
+  max-width:700px;
+  margin:auto;
+}
+
+section.activa{
+  display:block;
+}
+
+.inicio{
+  text-align:center;
+}
+
+.boton{
+  border:none;
+  border-radius:12px;
+  padding:13px 18px;
+  margin:6px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  color:white;
+}
+
+.boton.rojo{
+  background:linear-gradient(135deg,#dc2626,#991b1b);
+}
+
+.boton.verde{
+  background:linear-gradient(135deg,#059669,#047857);
+}
+
+.boton.gris{
+  background:#374151;
+}
+
+input,textarea,select{
+  width:100%;
+  padding:13px;
+  margin:7px 0 12px;
+  border-radius:10px;
+  border:1px solid #374151;
+  background:#111827;
+  color:white;
+  font-size:15px;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+label{
+  display:block;
+  font-weight:bold;
+  margin-top:8px;
+  color:#e5e7eb;
+}
+
+.formulario{
+  background:#111827;
+  padding:18px;
+  border-radius:18px;
+}
+
+.previewFoto{
+  width:130px;
+  height:170px;
+  object-fit:cover;
+  border-radius:14px;
+  display:none;
+  margin:10px auto;
+  border:2px solid #6366f1;
+}
+
+.tarjeta{
+  margin-top:20px;
+  border-radius:22px;
+  padding:20px;
+  overflow:hidden;
+  box-shadow:0 10px 35px rgba(0,0,0,.5);
+}
+
+.kawaii{
+  background:linear-gradient(135deg,#fbcfe8,#ddd6fe);
+  color:#3b0764;
+}
+
+.dark{
+  background:linear-gradient(135deg,#050505,#1f2937);
+  color:white;
+  border:1px solid #374151;
+}
+
+.legendary{
+  background:linear-gradient(135deg,#78350f,#f59e0b,#fef3c7);
+  color:#291500;
+}
+
+.magical{
+  background:linear-gradient(135deg,#312e81,#7c3aed,#ec4899);
+  color:white;
+}
+
+.tarjeta h2{
+  text-align:center;
+  font-size:27px;
+  margin-bottom:5px;
+}
+
+.tarjeta .anime{
+  text-align:center;
+  opacity:.8;
+  margin-bottom:15px;
+}
+
+.fotoTarjeta{
+  width:100%;
+  max-height:330px;
+  object-fit:cover;
+  border-radius:15px;
+  margin-bottom:15px;
+}
+
+.info{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.info div{
+  padding:9px;
+  border-radius:10px;
+  background:rgba(255,255,255,.12);
+}
+
+.descripcion{
+  margin-top:15px;
+}
+
+.descripcion h3{
+  margin-bottom:5px;
+}
+
+.stat{
+  margin-top:12px;
+}
+
+.statTitulo{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+  margin-bottom:5px;
+}
+
+.barra{
+  height:12px;
+  background:rgba(0,0,0,.3);
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.barra span{
+  display:block;
+  height:100%;
+  background:linear-gradient(90deg,#60a5fa,#a855f7,#f43f5e);
+  border-radius:20px;
+}
+
+.lista{
+  margin-top:15px;
+}
+
+.personajeMini{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#111827;
+  border:1px solid #374151;
+  padding:12px;
+  border-radius:14px;
+  margin-bottom:10px;
+}
+
+.personajeMini img{
+  width:55px;
+  height:70px;
+  object-fit:cover;
+  border-radius:9px;
+}
+
+.personajeMini .sinFoto{
+  width:55px;
+  height:70px;
+  border-radius:9px;
+  background:#374151;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+}
+
+.personajeMini .datos{
+  flex:1;
+}
+
+.personajeMini h3{
+  margin-bottom:4px;
+}
+
+.busqueda{
+  margin-bottom:15px;
+}
+
+.vacio{
+  text-align:center;
+  color:#9ca3af;
+  padding:30px 10px;
+}
+
+.navbar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:70px;
+  background:#0b0f19;
+  border-top:1px solid #374151;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:1000;
+}
+
+.navbar button{
+  border:none;
+  background:none;
+  color:#9ca3af;
+  font-size:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  cursor:pointer;
+}
+
+.navbar button span{
+  font-size:21px;
+}
+
+.navbar button.activo{
+  color:#60a5fa;
+}
+
+@media(max-width:420px){
+  .info{
+    grid-template-columns:1fr;
+  }
+
+  header h1{
+    font-size:25px;
+  }
+
+  .boton{
+    font-size:14px;
+  }
+}
+</style>
+  </head><body>
+
+<header>
+  <h1>🃏 Otaku Cards</h1>
+  <p>Crea tus propios personajes de anime ✨</p>
+</header>
+
+<section id="inicio" class="activa">
+  <div class="inicio">
+    <h2>✨ Bienvenida a Otaku Cards</h2>
+    <p style="margin:15px 0;color:#d1d5db;">
+      Crea, guarda y colecciona tus personajes favoritos.
+    </p>
+
+    <button class="boton" onclick="mostrarFormulario()">➕ Crear personaje</button>
+    <button class="boton gris" onclick="mostrarPersonajes()">📚 Mi colección</button>
+    <button class="boton" onclick="generarPersonaje()">🎲 Personaje aleatorio</button>
+  </div>
+</section>
+
+<section id="formulario">
+  <div class="formulario">
+    <h2>📝 Crear personaje</h2>
+
+    <label>Nombre</label>
+    <input id="nombre" placeholder="Ej: Anai">
+
+    <label>Anime</label>
+    <input id="anime" placeholder="Ej: Mi anime">
+
+    <label>Edad</label>
+    <input id="edad" type="number" placeholder="Ej: 17">
+
+    <label>Rareza</label>
+    <select id="rareza">
+      <option>Común</option>
+      <option>Rara</option>
+      <option>Épica</option>
+      <option>Legendaria</option>
+    </select>
+
+    <label>Diseño de tarjeta</label>
+    <select id="diseno">
+      <option value="kawaii">🌸 Kawaii</option>
+      <option value="dark">🌑 Dark</option>
+      <option value="legendary">👑 Legendary</option>
+      <option value="magical">🔮 Magical</option>
+    </select>
+
+    <label>Foto</label>
+    <input type="file" id="foto" accept="image/*" onchange="mostrarFoto(event)">
+    <img id="preview" class="previewFoto">
+
+    <label>Personalidad</label>
+    <textarea id="personalidad" placeholder="Describe su personalidad..."></textarea>
+
+    <label>Le gusta</label>
+    <textarea id="gustos" placeholder="Cosas que le gustan..."></textarea>
+
+    <label>Odia</label>
+    <textarea id="odios" placeholder="Cosas que no le gustan..."></textarea>
+
+    <label>Sueños</label>
+    <textarea id="suenos" placeholder="¿Cuál es su sueño?"></textarea>
+
+    <label>Objetivo</label>
+    <textarea id="objetivo" placeholder="¿Cuál es su objetivo?"></textarea>
+
+    <label>Armas</label>
+    <input id="armas" placeholder="Ej: Espada">
+
+    <label>Habilidades</label>
+    <textarea id="habilidades" placeholder="Sus habilidades..."></textarea>
+
+    <label>Historia</label>
+    <textarea id="historia" placeholder="Cuenta su historia..."></textarea>
+
+    <label>Nivel</label>
+    <input id="nivel" type="number" min="0" max="100" value="50">
+
+    <label>Energía</label>
+    <input id="energia" type="number" min="0" max="100" value="50">
+
+    <label>Poder</label>
+    <input id="poder" type="number" min="0" max="100" value="50">
+
+    <label>Defensa</label>
+    <input id="defensa" type="number" min="0" max="100" value="50">
+
+    <button class="boton" onclick="crearTarjeta()">✨ Crear tarjeta</button>
+    <button class="boton gris" onclick="volverInicio()">Cancelar</button>
+  </div>
+</section>
+
+<section id="coleccion">
+  <h2>📚 Mi colección</h2>
+
+  <input
+    class="busqueda"
+    id="busqueda"
+    placeholder="🔎 Buscar personaje..."
+    oninput="buscarPersonajes()"
+  >
+
+  <div id="listaPersonajes" class="lista"></div>
+</section>
+
+<section id="resultado">
+  <div id="tarjetaResultado"></div>
+
+  <div style="text-align:center;margin-top:15px;">
+    <button class="boton verde" onclick="guardarPersonaje()">💾 Guardar</button>
+    <button class="boton gris" onclick="mostrarFormulario()">✏️ Crear otro</button>
+    <button class="boton gris" onclick="mostrarPersonajes()">📚 Colección</button>
+  </div>
+</section>
+
+<nav class="navbar">
+  <button onclick="volverInicio()">
+    <span>🏠</span>Inicio
+  </button>
+
+  <button onclick="mostrarFormulario()">
+    <span>➕</span>Crear
+  </button>
+
+  <button onclick="mostrarPersonajes()">
+    <span>📚</span>Colección
+  </button>
+
+  <button onclick="mostrarFavoritos()">
+    <span>❤️</span>Favoritos
+  </button>
+
+  <button onclick="generarPersonaje()">
+    <span>🎲</span>Aleatorio
+  </button>
+</nav>
+
+<script>let fotoActual = "";
+let personajeActual = null;
+let indiceEditando = null;
+
+let personajes = JSON.parse(localStorage.getItem("otakuCards")) || [];
+
+function ocultarTodo(){
+  document.querySelectorAll("section").forEach(s=>{
+    s.classList.remove("activa");
+  });
+}
+
+function volverInicio(){
+  ocultarTodo();
+  document.getElementById("inicio").classList.add("activa");
+}
+
+function mostrarFormulario(){
+  ocultarTodo();
+  document.getElementById("formulario").classList.add("activa");
+  indiceEditando = null;
+}
+
+function mostrarFoto(event){
+  const archivo = event.target.files[0];
+
+  if(!archivo) return;
+
+  const lector = new FileReader();
+
+  lector.onload = function(e){
+    fotoActual = e.target.result;
+
+    const preview = document.getElementById("preview");
+    preview.src = fotoActual;
+    preview.style.display = "block";
+  };
+
+  lector.readAsDataURL(archivo);
+}
+
+function valor(id){
+  return document.getElementById(id).value;
+}
+
+function numeroSeguro(id){
+  let n = parseInt(document.getElementById(id).value);
+
+  if(isNaN(n)) n = 0;
+
+  return Math.max(0,Math.min(100,n));
+}
+
+function crearTarjeta(){
+
+  const nombre = valor("nombre");
+
+  if(!nombre.trim()){
+    alert("Escribe un nombre para tu personaje 💜");
+    return;
+  }
+
+  personajeActual = {
+    nombre:nombre,
+    anime:valor("anime"),
+    edad:valor("edad"),
+    rareza:valor("rareza"),
+    diseno:valor("diseno"),
+    foto:fotoActual,
+    personalidad:valor("personalidad"),
+    gustos:valor("gustos"),
+    odios:valor("odios"),
+    suenos:valor("suenos"),
+    objetivo:valor("objetivo"),
+    armas:valor("armas"),
+    habilidades:valor("habilidades"),
+    historia:valor("historia"),
+    nivel:numeroSeguro("nivel"),
+    energia:numeroSeguro("energia"),
+    poder:numeroSeguro("poder"),
+    defensa:numeroSeguro("defensa"),
+    favorito:false
+  };
+
+  mostrarDatosTarjeta();
+}
+
+function escapar(texto){
+  return String(texto)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function mostrarDatosTarjeta(){
+
+  ocultarTodo();
+
+  document.getElementById("resultado").classList.add("activa");
+
+  const p = personajeActual;
+
+  let foto = p.foto
+    ? `<img class="fotoTarjeta" src="${p.foto}">`
+    : "";
+
+  document.getElementById("tarjetaResultado").innerHTML = `
+
+    <div class="tarjeta ${p.diseno}">
+
+      <h2>${escapar(p.nombre)}</h2>
+
+      <div class="anime">
+        ${escapar(p.anime || "Personaje original")} •
+        ${escapar(p.rareza)}
+      </div>
+
+      ${foto}
+
+      <div class="info">
+        <div>🎂 Edad: ${escapar(p.edad || "?")}</div>
+        <div>⭐ Rareza: ${escapar(p.rareza)}</div>
+        <div>⚔️ Armas: ${escapar(p.armas || "Ninguna")}</div>
+        <div>❤️ Favorito: ${p.favorito ? "Sí" : "No"}</div>
+      </div>
+
+      <div class="descripcion">
+        <h3>💜 Personalidad</h3>
+        <p>${escapar(p.personalidad || "Sin descripción")}</p>
+      </div>
+
+      <div class="descripcion">
+        <h3>💕 Le gusta</h3>
+        <p>${escapar(p.gustos || "Sin información")}</p>
+      </div>
+
+      <div class="descripcion">
+        <h3>💢 Odia</h3>
+        <p>${escapar(p.odios || "Sin información")}</p>
+      </div>
+
+      <div class="descripcion">
+        <h3>🌟 Sueños</h3>
+        <p>${escapar(p.suenos || "Sin información")}</p>
+      </div>
+
+      <div class="descripcion">
+        <h3>🎯 Objetivo</h3>
+        <p>${escapar(p.objetivo || "Sin información")}</p>
+      </div>
+
+      <div class="descripcion">
+        <h3>✨ Habilidades</h3>
+        <p>${escapar(p.habilidades || "Sin información")}</p>
+      </div>
+
+      <div class="descripcion">
+        <h3>📖 Historia</h3>
+        <p>${escapar(p.historia || "Sin historia")}</p>
+      </div>
+
+      <div class="stat">
+        <div class="statTitulo">
+          <span>⭐ Nivel</span>
+          <span>${p.nivel}/100</span>
+        </div>
+        <div class="barra">
+          <span style="width:${p.nivel}%"></span>
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="statTitulo">
+          <span>⚡ Energía</span>
+          <span>${p.energia}/100</span>
+        </div>
+        <div class="barra">
+          <span style="width:${p.energia}%"></span>
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="statTitulo">
+          <span>💥 Poder</span>
+          <span>${p.poder}/100</span>
+        </div>
+        <div class="barra">
+          <span style="width:${p.poder}%"></span>
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="statTitulo">
+          <span>🛡️ Defensa</span>
+          <span>${p.defensa}/100</span>
+        </div>
+        <div class="barra">
+          <span style="width:${p.defensa}%"></span>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+function guardarPersonaje(){
+
+  if(!personajeActual) return;
+
+  if(indiceEditando !== null){
+    personajes[indiceEditando] = personajeActual;
+    indiceEditando = null;
+  }else{
+    personajes.push(personajeActual);
+  }
+
+  localStorage.setItem("otakuCards",JSON.stringify(personajes));
+
+  alert("¡Personaje guardado! 💜✨");
+
+  mostrarPersonajes();
+}
+
+function mostrarPersonajes(){
+
+  ocultarTodo();
+
+  document.getElementById("coleccion").classList.add("activa");
+
+  document.getElementById("busqueda").value = "";
+
+  mostrarListaPersonajes();
+}
+
+function mostrarListaPersonajes(filtro=""){
+
+  const contenedor = document.getElementById("listaPersonajes");
+
+  const lista = personajes.filter(p =>
+    p.nombre.toLowerCase().includes(filtro.toLowerCase()) ||
+    p.anime.toLowerCase().includes(filtro.toLowerCase())
+  );
+
+  if(lista.length === 0){
+    contenedor.innerHTML =
+      `<div class="vacio">No hay personajes todavía 🥺💜</div>`;
+    return;
+  }
+
+  contenedor.innerHTML = "";
+
+  personajes.forEach((p,index)=>{
+
+    if(
+      !p.nombre.toLowerCase().includes(filtro.toLowerCase()) &&
+      !p.anime.toLowerCase().includes(filtro.toLowerCase())
+    ) return;
+
+    const elemento = document.createElement("div");
+
+    elemento.className = "personajeMini";
+
+    elemento.innerHTML = `
+
+      ${
+        p.foto
+        ? `<img src="${p.foto}">`
+        : `<div class="sinFoto">🃏</div>`
+      }
+
+      <div class="datos">
+        <h3>${escapar(p.nombre)}</h3>
+        <p>${escapar(p.anime || "Personaje original")}</p>
+        <p>${p.favorito ? "❤️ Favorito" : "🤍"}</p>
+      </div>
+
+      <button class="boton" onclick="verPersonaje(${index})">
+        Ver
+      </button>
+    `;
+
+    contenedor.appendChild(elemento);
+  });
+}
+
+function buscarPersonajes(){
+
+  const filtro =
+    document.getElementById("busqueda").value;
+
+  mostrarListaPersonajes(filtro);
+}
+
+function verPersonaje(indice){
+
+  personajeActual = {...personajes[indice]};
+
+  indiceEditando = indice;
+
+  mostrarDatosTarjeta();
+
+  const botones =
+    document.querySelector("#resultado > div:last-child");
+
+  botones.innerHTML = `
+
+    <button class="boton verde"
+      onclick="guardarCambios()">
+      💾 Guardar cambios
+    </button>
+
+    <button class="boton"
+      onclick="alternarFavorito(${indice})">
+      ${personajeActual.favorito
+        ? "💔 Quitar favorito"
+        : "❤️ Favorito"}
+    </button>
+
+    <button class="boton"
+      onclick="editarPersonaje(${indice})">
+      ✏️ Editar
+    </button>
+
+    <button class="boton rojo"
+      onclick="eliminarPersonaje(${indice})">
+      🗑️ Eliminar
+    </button>
+
+    <button class="boton gris"
+      onclick="mostrarPersonajes()">
+      📚 Volver
+    </button>
+  `;
+}
+
+function alternarFavorito(indice){
+
+  personajes[indice].favorito =
+    !personajes[indice].favorito;
+
+  localStorage.setItem(
+    "otakuCards",
+    JSON.stringify(personajes)
+  );
+
+  personajeActual = {...personajes[indice]};
+
+  verPersonaje(indice);
+}
+
+function mostrarFavoritos(){
+
+  ocultarTodo();
+
+  document.getElementById("coleccion").classList.add("activa");
+
+  document.getElementById("busqueda").value = "";
+
+  const contenedor =
+    document.getElementById("listaPersonajes");
+
+  const favoritos =
+    personajes.filter(p=>p.favorito);
+
+  if(favoritos.length === 0){
+    contenedor.innerHTML =
+      `<div class="vacio">
+        Todavía no tienes favoritos ❤️
+      </div>`;
+    return;
+  }
+
+  contenedor.innerHTML = "";
+
+  personajes.forEach((p,index)=>{
+
+    if(!p.favorito) return;
+
+    const elemento =
+      document.createElement("div");
+
+    elemento.className = "personajeMini";
+
+    elemento.innerHTML = `
+
+      ${
+        p.foto
+        ? `<img src="${p.foto}">`
+        : `<div class="sinFoto">🃏</div>`
+      }
+
+      <div class="datos">
+        <h3>${escapar(p.nombre)}</h3>
+        <p>${escapar(p.anime || "Personaje original")}</p>
+        <p>❤️ Favorito</p>
+      </div>
+
+      <button class="boton"
+        onclick="verPersonaje(${index})">
+        Ver
+      </button>
+    `;
+
+    contenedor.appendChild(elemento);
+  });
+}
+
+function editarPersonaje(indice){
+
+  const p = personajes[indice];
+
+  indiceEditando = indice;
+
+  ocultarTodo();
+
+  document.getElementById("formulario")
+    .classList.add("activa");
+
+  document.getElementById("nombre").value = p.nombre;
+  document.getElementById("anime").value = p.anime;
+  document.getElementById("edad").value = p.edad;
+  document.getElementById("rareza").value = p.rareza;
+  document.getElementById("diseno").value = p.diseno;
+  document.getElementById("personalidad").value = p.personalidad;
+  document.getElementById("gustos").value = p.gustos;
+  document.getElementById("odios").value = p.odios;
+  document.getElementById("suenos").value = p.suenos;
+  document.getElementById("objetivo").value = p.objetivo;
+  document.getElementById("armas").value = p.armas;
+  document.getElementById("habilidades").value = p.habilidades;
+  document.getElementById("historia").value = p.historia;
+  document.getElementById("nivel").value = p.nivel;
+  document.getElementById("energia").value = p.energia;
+  document.getElementById("poder").value = p.poder;
+  document.getElementById("defensa").value = p.defensa;
+
+  fotoActual = p.foto || "";
+
+  if(fotoActual){
+
+    document.getElementById("preview").src =
+      fotoActual;
+
+    document.getElementById("preview")
+      .style.display = "block";
+  }
+}
+
+function guardarCambios(){
+
+  if(indiceEditando === null) return;
+
+  personajes[indiceEditando] =
+    personajeActual;
+
+  localStorage.setItem(
+    "otakuCards",
+    JSON.stringify(personajes)
+  );
+
+  alert("¡Cambios guardados! ✨");
+
+  mostrarPersonajes();
+}
+
+function eliminarPersonaje(indice){
+
+  const confirmar = confirm(
+    "¿Quieres eliminar este personaje?"
+  );
+
+  if(!confirmar) return;
+
+  personajes.splice(indice,1);
+
+  localStorage.setItem(
+    "otakuCards",
+    JSON.stringify(personajes)
+  );
+
+  mostrarPersonajes();
+}
+
+function elegir(lista){
+
+  return lista[
+    Math.floor(Math.random()*lista.length)
+  ];
+}
+
+function numeroAleatorio(min,max){
+
+  return Math.floor(
+    Math.random()*(max-min+1)
+  )+min;
+}
+
+function generarPersonaje(){
+
+  const nombres = [
+    "Akira",
+    "Yuna",
+    "Hana",
+    "Ren",
+    "Aiko",
+    "Sora",
+    "Mika",
+    "Rin",
+    "Kaito",
+    "Yuki"
+  ];
+
+  const animes = [
+    "Mundo de las Sombras",
+    "Academia Estelar",
+    "Guardianes del Tiempo",
+    "Crónicas Mágicas",
+    "Reino de Cristal"
+  ];
+
+  const rarezas = [
+    "Común",
+    "Rara",
+    "Épica",
+    "Legendaria"
+  ];
+
+  const habilidades = [
+    "Control de energía",
+    "Velocidad sobrenatural",
+    "Magia elemental",
+    "Teletransportación",
+    "Control de sombras"
+  ];
+
+  personajeActual = {
+
+    nombre:elegir(nombres),
+
+    anime:elegir(animes),
+
+    edad:numeroAleatorio(15,25),
+
+    rareza:elegir(rarezas),
+
+    diseno:elegir([
+      "kawaii",
+      "dark",
+      "legendary",
+      "magical"
+    ]),
+
+    foto:"",
+
+    personalidad:elegir([
+      "Amable y valiente",
+      "Seria pero cariñosa",
+      "Alegre y energética",
+      "Misteriosa y tranquila"
+    ]),
+
+    gustos:
+      "Aventuras, música y pasar tiempo con sus amigos.",
+
+    odios:
+      "Las injusticias y las mentiras.",
+
+    suenos:
+      "Convertirse en una gran guerrera.",
+
+    objetivo:
+      "Proteger a las personas que quiere.",
+
+    armas:elegir([
+      "Espada",
+      "Arco",
+      "Dagas",
+      "Báculo",
+      "Ninguna"
+    ]),
+
+    habilidades:elegir(habilidades),
+
+    historia:
+      "Su historia apenas comienza...",
+
+    nivel:numeroAleatorio(40,100),
+
+    energia:numeroAleatorio(40,100),
+
+    poder:numeroAleatorio(40,100),
+
+    defensa:numeroAleatorio(40,100),
+
+    favorito:false
+  };
+
+  mostrarDatosTarjeta();
+}
+
+</script>
+
+</body>
+  </html>
