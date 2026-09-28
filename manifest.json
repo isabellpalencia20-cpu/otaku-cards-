@@ -1,0 +1,15 @@
+{
+  "name": "Otaku Cards",
+  "short_name": "Otaku Cards",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "icono.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
